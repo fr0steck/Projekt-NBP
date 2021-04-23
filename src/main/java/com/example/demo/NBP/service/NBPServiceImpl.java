@@ -28,14 +28,14 @@ public class NBPServiceImpl implements NBPService {
         this.webClientBuilder = webClientBuilder;
     }
 
-    public NBPResponseDTO getAvaliableCurrencies(){
+    public void getAvaliableCurrencies(){
         NBPResponseDTO block = webClientBuilder.build()
                 .get()
                 .uri("http://api.nbp.pl/api/exchangerates/tables/A")
                 .retrieve()
                 .bodyToMono(NBPResponseDTO.class)
                 .block();
-        return block;
+        System.out.println(block);
     }
 /*
 ma odpytac NBP

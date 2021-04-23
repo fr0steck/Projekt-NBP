@@ -29,7 +29,7 @@ public class NBPController {
 
     @GetMapping(path = "/avaliableCurrencies")
     public void getAvaliableCurrencies(){
-        System.out.println(nbpService.getAvaliableCurrencies());
+        nbpService.getAvaliableCurrencies();
     }
 
 }
