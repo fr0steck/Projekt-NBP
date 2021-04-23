@@ -1,6 +1,7 @@
 package com.example.demo.NBP.controller;
 
 
+import com.example.demo.NBP.dto.ExchangeRatesTableDTO;
 import com.example.demo.NBP.dto.NBPResponseDTO;
 import com.example.demo.NBP.entity.Currency;
 import com.example.demo.NBP.service.NBPService;
@@ -28,8 +29,8 @@ public class NBPController {
     private WebClient.Builder webClientBuilder;
 
     @GetMapping(path = "/avaliableCurrencies")
-    public void getAvaliableCurrencies(){
-        nbpService.getAvaliableCurrencies();
+    public ExchangeRatesTableDTO[] getAvaliableCurrencies(){
+        return nbpService.getAvaliableCurrencies();
     }
 
 }

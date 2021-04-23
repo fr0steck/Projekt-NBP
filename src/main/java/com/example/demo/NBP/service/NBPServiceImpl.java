@@ -1,5 +1,6 @@
 package com.example.demo.NBP.service;
 
+import com.example.demo.NBP.dto.ExchangeRatesTableDTO;
 import com.example.demo.NBP.dto.NBPResponseDTO;
 import com.example.demo.NBP.repository.NBPRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,14 @@ public class NBPServiceImpl implements NBPService {
         this.webClientBuilder = webClientBuilder;
     }
 
-    public void getAvaliableCurrencies(){
-        NBPResponseDTO block = webClientBuilder.build()
+    public ExchangeRatesTableDTO[] getAvaliableCurrencies(){
+        ExchangeRatesTableDTO [] block = webClientBuilder.build()
                 .get()
                 .uri("http://api.nbp.pl/api/exchangerates/tables/A")
                 .retrieve()
-                .bodyToMono(NBPResponseDTO.class)
+                .bodyToMono(ExchangeRatesTableDTO[].class)
                 .block();
-        System.out.println(block);
+        return block;
     }
 /*
 ma odpytac NBP
