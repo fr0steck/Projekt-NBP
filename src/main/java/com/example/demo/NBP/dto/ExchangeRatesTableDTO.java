@@ -1,28 +1,28 @@
 package com.example.demo.NBP.dto;
 
 public class ExchangeRatesTableDTO {
-    private NBPResponseDTO ExchangeRatesTable;
+    private NBPResponseDTO ExchangeRatesTable1;
 
     @Override
     public String toString() {
         return "ExchangeRatesTableDTO{" +
-                "ExchangeRatesTable=" + ExchangeRatesTable +
+                "ExchangeRatesTable1=" + ExchangeRatesTable1 +
                 '}';
     }
 
-    public void setExchangeRatesTable(NBPResponseDTO exchangeRatesTable) {
-        ExchangeRatesTable = exchangeRatesTable;
+    public void setExchangeRatesTable1(NBPResponseDTO exchangeRatesTable1) {
+        ExchangeRatesTable1 = exchangeRatesTable1;
     }
 
-    public NBPResponseDTO getExchangeRatesTable() {
-        return ExchangeRatesTable;
+    public NBPResponseDTO getExchangeRatesTable1() {
+        return ExchangeRatesTable1;
     }
 
     public ExchangeRatesTableDTO() {
     }
 
-    public ExchangeRatesTableDTO(NBPResponseDTO exchangeRatesTable) {
-        ExchangeRatesTable = exchangeRatesTable;
+    public ExchangeRatesTableDTO(NBPResponseDTO exchangeRatesTable1) {
+        ExchangeRatesTable1 = exchangeRatesTable1;
     }
 
 
