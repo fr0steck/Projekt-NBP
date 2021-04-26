@@ -1,7 +1,7 @@
 package com.example.demo.NBP.controller;
 
 
-import com.example.demo.NBP.dto.TestDTO1;
+import com.example.demo.NBP.dto.NBPResponseDTO;
 import com.example.demo.NBP.service.NBPService;
 import com.example.demo.NBP.service.NBPServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class NBPController {
     private WebClient.Builder webClientBuilder;
 
     @GetMapping(path = "/avaliableCurrencies")
-    public TestDTO1 getAvaliableCurrencies(){
+    public NBPResponseDTO[] getAvaliableCurrencies(){
         return nbpService.getAvaliableCurrencies();
     }
 

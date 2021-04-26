@@ -1,52 +1,64 @@
 package com.example.demo.NBP.dto;
 
+import java.util.Date;
 import java.util.List;
 
 public class NBPResponseDTO {
-    private String Table;
-    private String No;
-    private List<RateDTO> Rates;
+    private String table;
+    private String no;
+    private Date effectiveDate;
+    private List<RateDTO> rates;
 
     @Override
     public String toString() {
         return "NBPResponseDTO{" +
-                "Table='" + Table + '\'' +
-                ", No='" + No + '\'' +
-                ", Rates=" + Rates +
+                "table='" + table + '\'' +
+                ", no='" + no + '\'' +
+                ", effectiveDate=" + effectiveDate +
+                ", rates=" + rates +
                 '}';
-    }
-
-    public void setTable(String table) {
-        Table = table;
-    }
-
-    public void setNo(String no) {
-        No = no;
-    }
-
-    public void setRates(List<RateDTO> rates) {
-        Rates = rates;
-    }
-
-    public NBPResponseDTO(String table, String no, List<RateDTO> rates) {
-        Table = table;
-        No = no;
-        Rates = rates;
     }
 
     public NBPResponseDTO() {
     }
 
+    public NBPResponseDTO(String table, String no, Date effectiveDate, List<RateDTO> rates) {
+        this.table = table;
+        this.no = no;
+        this.effectiveDate = effectiveDate;
+        this.rates = rates;
+    }
+
     public String getTable() {
-        return Table;
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 
     public String getNo() {
-        return No;
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 
     public List<RateDTO> getRates() {
-        return Rates;
+        return rates;
+    }
+
+    public void setRates(List<RateDTO> rates) {
+        this.rates = rates;
     }
 }
 
