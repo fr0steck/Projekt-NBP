@@ -1,10 +1,14 @@
 package com.example.demo.NBP.service;
 
 import com.example.demo.NBP.dto.NBPResponseDTO;
+import com.example.demo.NBP.dto.RateDTO;
 import com.example.demo.NBP.repository.NBPRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NBPServiceImpl implements NBPService {
@@ -29,15 +33,31 @@ public class NBPServiceImpl implements NBPService {
     }
 
     @Override
-    public NBPResponseDTO[] getAvaliableCurrencies(){
-        NBPResponseDTO[] block = webClientBuilder.build()
+    public NBPResponseDTO[] getAllCurrencies(){
+        NBPResponseDTO[] waluty = webClientBuilder.build()
                 .get()
                 .uri("http://api.nbp.pl/api/exchangerates/tables/A")
                 .retrieve()
                 .bodyToMono(NBPResponseDTO[].class)
                 .block();
-        return block;
+        return waluty;
     }
+
+    @Override
+    public List<String> getAvaliableCurrencies(){
+        NBPResponseDTO[] waluty = webClientBuilder.build()
+                .get()
+                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+                .retrieve()
+                .bodyToMono(NBPResponseDTO[].class)
+                .block();
+        List<RateDTO> listawalut = waluty[0].getRates();
+        List<String> listaNazwa = new ArrayList<>();
+        for(RateDTO r : listawalut)
+            listaNazwa.add(r.getCurrency());
+        return listaNazwa;
+    }
+
 /*
 ma odpytac NBP
 zapisuje dane z NBP do Currency
