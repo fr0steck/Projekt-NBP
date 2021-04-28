@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,21 @@ public class NBPServiceImpl implements NBPService {
         for(RateDTO r : listawalut)
             listaNazwa.add(r.getCurrency());
         return listaNazwa;
+    }
+
+    @Override
+    public List<BigDecimal> getCurrentValues() {
+        NBPResponseDTO[] waluty = webClientBuilder.build()
+                .get()
+                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+                .retrieve()
+                .bodyToMono(NBPResponseDTO[].class)
+                .block();
+        List<RateDTO> listawalut = waluty[0].getRates();
+        List<BigDecimal> listakursy = new ArrayList<>();
+        for(RateDTO r : listawalut)
+            listakursy.add(r.getMid());
+        return listakursy;
     }
 
 /*

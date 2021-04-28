@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -29,5 +30,12 @@ public class NBPController {
     public List<String> getAvaliableCurrencies(){
         return nbpService.getAvaliableCurrencies();
     }
+
+    @GetMapping(path = "/currentValues")
+    public List<BigDecimal> getCurrentValues(){
+        return nbpService.getCurrentValues();
+    }
+
+
 
 }
