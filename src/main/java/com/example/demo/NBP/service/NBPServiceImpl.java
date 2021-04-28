@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +74,31 @@ public class NBPServiceImpl implements NBPService {
             listakursy.add(r.getMid());
         return listakursy;
     }
+
+    @Override
+    public BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2) {
+        NBPResponseDTO[] waluty = webClientBuilder.build()
+                .get()
+                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+                .retrieve()
+                .bodyToMono(NBPResponseDTO[].class)
+                .block();
+        List<RateDTO> listawalut = waluty[0].getRates();
+        BigDecimal valuePierwszej = null;
+        BigDecimal valueDrugiej = null;
+        for(RateDTO r : listawalut) {
+            if (r.getCurrency().equals(currency1)) {
+                valuePierwszej = r.getMid();
+            }
+        }
+        for(RateDTO r : listawalut) {
+            if (r.getCurrency().equals(currency2)) {
+                valueDrugiej = r.getMid();
+            }
+        }
+        return (value.multiply(valuePierwszej)).divide(valueDrugiej,5, RoundingMode.HALF_UP);
+    }
+
 
 /*
 ma odpytac NBP
