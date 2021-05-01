@@ -8,8 +8,7 @@ import java.util.List;
 
 
 public interface NBPService {
-    NBPResponseDTO [] getAllCurrencies();
-    List<String> getAvaliableCurrencies();
-    List<BigDecimal> getCurrentValues();
+    //NBPResponseDTO [] getAllCurrencies();
+    List<RateDTO> getAvaliableCurrencies();
     BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2);
 }

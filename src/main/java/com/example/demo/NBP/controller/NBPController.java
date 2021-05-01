@@ -1,6 +1,7 @@
 package com.example.demo.NBP.controller;
 
 
+import com.example.demo.NBP.dto.RateDTO;
 import com.example.demo.NBP.service.NBPService;
 import com.example.demo.NBP.service.NBPServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,10 @@ public class NBPController {
     private WebClient.Builder webClientBuilder;
 
     @GetMapping(path = "/avaliableCurrencies")
-    public List<String> getAvaliableCurrencies(){
+    public List<RateDTO> getAvaliableCurrencies(){
         return nbpService.getAvaliableCurrencies();
     }
 
-    @GetMapping(path = "/currentValues")
-    public List<BigDecimal> getCurrentValues(){
-        return nbpService.getCurrentValues();
-    }
 
     @PostMapping(path = "/exchangeCurrencies")
     public BigDecimal exchangeCurrencies(@RequestBody BigDecimal value, String currency1, String currency2){

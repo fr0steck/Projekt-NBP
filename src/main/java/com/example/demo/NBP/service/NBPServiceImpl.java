@@ -2,6 +2,7 @@ package com.example.demo.NBP.service;
 
 import com.example.demo.NBP.dto.NBPResponseDTO;
 import com.example.demo.NBP.dto.RateDTO;
+import com.example.demo.NBP.dto.ValueDTO;
 import com.example.demo.NBP.repository.NBPRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,6 @@ public class NBPServiceImpl implements NBPService {
     private final NBPRepository nbpRepository;
     private final WebClient.Builder webClientBuilder;
 
-    /*
-    Currency currency = webClientBuilder.build()
-    .get()
-        .uri("http://api.nbp.pl/api/exchangerates/tables/A")
-        .retrive()
-        .bodyToMono(Currency.class)
-        .block();
-*/
-
 
     @Autowired
     public NBPServiceImpl(NBPRepository nbpRepository, WebClient.Builder webClientBuilder) {
@@ -34,77 +26,88 @@ public class NBPServiceImpl implements NBPService {
         this.webClientBuilder = webClientBuilder;
     }
 
-    @Override
-    public NBPResponseDTO[] getAllCurrencies(){
-        NBPResponseDTO[] waluty = webClientBuilder.build()
-                .get()
-                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
-                .retrieve()
-                .bodyToMono(NBPResponseDTO[].class)
-                .block();
-        return waluty;
-    }
+//    @Override
+//    public NBPResponseDTO[] getAllCurrencies(){
+//        NBPResponseDTO[] waluty = webClientBuilder.build()
+//                .get()
+//                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+//                .retrieve()
+//                .bodyToMono(NBPResponseDTO[].class)
+//                .block();
+//        return waluty;
+//    }
 
     @Override
-    public List<String> getAvaliableCurrencies(){
+    public List<RateDTO> getAvaliableCurrencies(){
         NBPResponseDTO[] waluty = webClientBuilder.build()
                 .get()
                 .uri("http://api.nbp.pl/api/exchangerates/tables/A")
                 .retrieve()
                 .bodyToMono(NBPResponseDTO[].class)
                 .block();
-        List<RateDTO> listawalut = waluty[0].getRates();
-        List<String> listaNazwa = new ArrayList<>();
-        for(RateDTO r : listawalut)
-            listaNazwa.add(r.getCurrency());
-        return listaNazwa;
+        return waluty[0].getRates();
+//        List<RateDTO> listawalut = waluty[0].getRates();
+//        List<String> listaNazwa = new ArrayList<>();
+//        for(RateDTO r : listawalut)
+//            listaNazwa.add(r.getCurrency());
+//        return listaNazwa;
     }
 
-    @Override
-    public List<BigDecimal> getCurrentValues() {
-        NBPResponseDTO[] waluty = webClientBuilder.build()
-                .get()
-                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
-                .retrieve()
-                .bodyToMono(NBPResponseDTO[].class)
-                .block();
-        List<RateDTO> listawalut = waluty[0].getRates();
-        List<BigDecimal> listakursy = new ArrayList<>();
-        for(RateDTO r : listawalut)
-            listakursy.add(r.getMid());
-        return listakursy;
-    }
+//    @Override
+//    public List<BigDecimal> getCurrentValues() {
+//        NBPResponseDTO[] waluty = webClientBuilder.build()
+//                .get()
+//                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+//                .retrieve()
+//                .bodyToMono(NBPResponseDTO[].class)
+//                .block();
+//        List<RateDTO> listawalut = waluty[0].getRates();
+//        List<BigDecimal> listakursy = new ArrayList<>();
+//        for(RateDTO r : listawalut)
+//            listakursy.add(r.getMid());
+//        return listakursy;
+//    }
+
+//    @Override
+//    public BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2) {
+//        NBPResponseDTO[] waluty = webClientBuilder.build()
+//                .get()
+//                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+//                .retrieve()
+//                .bodyToMono(NBPResponseDTO[].class)
+//                .block();
+//        List<RateDTO> listawalut = waluty[0].getRates();
+//        BigDecimal valuePierwszej = null;
+//        BigDecimal valueDrugiej = null;
+//        for(RateDTO r : listawalut) {
+//            if (r.getCurrency().equals(currency1)) {
+//                valuePierwszej = r.getMid();
+//            }
+//        }
+//        for(RateDTO r : listawalut) {
+//            if (r.getCurrency().equals(currency2)) {
+//                valueDrugiej = r.getMid();
+//            }
+//        }
+//        return (value.multiply(valuePierwszej)).divide(valueDrugiej,5, RoundingMode.HALF_UP);
+//    }
 
     @Override
     public BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2) {
-        NBPResponseDTO[] waluty = webClientBuilder.build()
+        ValueDTO waluta1 = webClientBuilder.build()
                 .get()
-                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+                .uri("http://api.nbp.pl/api/exchangerates/rates/A/{id}",currency1)
                 .retrieve()
-                .bodyToMono(NBPResponseDTO[].class)
+                .bodyToMono(ValueDTO.class)
                 .block();
-        List<RateDTO> listawalut = waluty[0].getRates();
-        BigDecimal valuePierwszej = null;
-        BigDecimal valueDrugiej = null;
-        for(RateDTO r : listawalut) {
-            if (r.getCurrency().equals(currency1)) {
-                valuePierwszej = r.getMid();
-            }
-        }
-        for(RateDTO r : listawalut) {
-            if (r.getCurrency().equals(currency2)) {
-                valueDrugiej = r.getMid();
-            }
-        }
+        ValueDTO waluta2 = webClientBuilder.build()
+                .get()
+                .uri("http://api.nbp.pl/api/exchangerates/rates/A/{id}",currency2)
+                .retrieve()
+                .bodyToMono(ValueDTO.class)
+                .block();
+        BigDecimal valuePierwszej = waluta1.getRates().get(0).getMid();
+        BigDecimal valueDrugiej = waluta2.getRates().get(0).getMid();
         return (value.multiply(valuePierwszej)).divide(valueDrugiej,5, RoundingMode.HALF_UP);
     }
-
-
-/*
-ma odpytac NBP
-zapisuje dane z NBP do Currency
-save przez NBPRepository na baze
-zwracam na front informacje ktore chcialem uzyskac z resta
- */
-
 }
