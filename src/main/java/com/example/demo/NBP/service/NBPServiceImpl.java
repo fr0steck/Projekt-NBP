@@ -127,6 +127,6 @@ public class NBPServiceImpl implements NBPService {
                 .filter(r -> r.getCurrency().equals(currency2))
                 .collect(Collectors.toList());
 
-        return (value.multiply(collect1.get(0).getMid())).divide(collect2.get(0).getMid()),5, RoundingMode.HALF_UP);
+        return (value.multiply(collect1.get(0).getMid())).divide(collect2.get(0).getMid(),5, RoundingMode.HALF_UP);
     }
 }
