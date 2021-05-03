@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NBPServiceImpl implements NBPService {
@@ -109,5 +110,23 @@ public class NBPServiceImpl implements NBPService {
         BigDecimal valuePierwszej = waluta1.getRates().get(0).getMid();
         BigDecimal valueDrugiej = waluta2.getRates().get(0).getMid();
         return (value.multiply(valuePierwszej)).divide(valueDrugiej,5, RoundingMode.HALF_UP);
+    }
+
+    @Override
+    public BigDecimal exchangeCurrenciesStream(BigDecimal value, String currency1, String currency2) {
+        NBPResponseDTO[] waluty = webClientBuilder.build()
+                .get()
+                .uri("http://api.nbp.pl/api/exchangerates/tables/A")
+                .retrieve()
+                .bodyToMono(NBPResponseDTO[].class)
+                .block();
+        List<RateDTO> collect1 = waluty[0].getRates().stream()
+                .filter(r -> r.getCurrency().equals(currency1))
+                .collect(Collectors.toList());
+        List<RateDTO> collect2 = waluty[0].getRates().stream()
+                .filter(r -> r.getCurrency().equals(currency2))
+                .collect(Collectors.toList());
+
+        return (value.multiply(collect1.get(0).getMid())).divide(collect2.get(0).getMid()),5, RoundingMode.HALF_UP);
     }
 }

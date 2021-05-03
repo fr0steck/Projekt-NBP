@@ -11,4 +11,5 @@ public interface NBPService {
     //NBPResponseDTO [] getAllCurrencies();
     List<RateDTO> getAvaliableCurrencies();
     BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2);
+    BigDecimal exchangeCurrenciesStream(BigDecimal value, String currency1, String currency2);
 }

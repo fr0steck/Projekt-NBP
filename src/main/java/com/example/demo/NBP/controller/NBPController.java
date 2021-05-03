@@ -36,6 +36,11 @@ public class NBPController {
         return nbpService.exchangeCurrencies(value,currency1,currency2);
     }
 
+    @PostMapping(path = "/exchangeCurrenciesStream")
+    public BigDecimal exchangeCurrenciesStream(@RequestBody BigDecimal value, String currency1, String currency2){
+        return nbpService.exchangeCurrenciesStream(value,currency1,currency2);
+    }
+
 
 
 }
