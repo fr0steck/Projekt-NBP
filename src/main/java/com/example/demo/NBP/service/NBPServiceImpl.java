@@ -121,10 +121,10 @@ public class NBPServiceImpl implements NBPService {
                 .bodyToMono(NBPResponseDTO[].class)
                 .block();
         List<RateDTO> collect1 = waluty[0].getRates().stream()
-                .filter(r -> r.getCurrency().equals(currency1))
+                .filter(r -> r.getCode().equals(currency1))
                 .collect(Collectors.toList());
         List<RateDTO> collect2 = waluty[0].getRates().stream()
-                .filter(r -> r.getCurrency().equals(currency2))
+                .filter(r -> r.getCode().equals(currency2))
                 .collect(Collectors.toList());
 
         return (value.multiply(collect1.get(0).getMid())).divide(collect2.get(0).getMid(),5, RoundingMode.HALF_UP);
