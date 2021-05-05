@@ -4,6 +4,7 @@ package com.example.demo.NBP.controller;
 import com.example.demo.NBP.dto.RateDTO;
 import com.example.demo.NBP.service.NBPService;
 import com.example.demo.NBP.service.NBPServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,7 +27,7 @@ public class NBPController {
     private WebClient.Builder webClientBuilder;
 
     @GetMapping(path = "/avaliableCurrencies")
-    public List<RateDTO> getAvaliableCurrencies(){
+    public List<RateDTO> getAvaliableCurrencies() throws JsonProcessingException {
         return nbpService.getAvaliableCurrencies();
     }
 

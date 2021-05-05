@@ -2,61 +2,58 @@ package com.example.demo.NBP.entity;
 
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.math.BigDecimal;
+import javax.persistence.*;
 
 
 @Entity
 @Table
 public class Currency {
     @Id
-    private String currencyCode;
-    private String currencyName;
-    private BigDecimal avarageValue;
-
-    public Currency() {
-
-    }
-
-
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+    private String typEndpointu;
+    @Lob
+    @Column(columnDefinition="TEXT")
+    private String zwroconaWartosc;
 
     @Override
     public String toString() {
         return "Currency{" +
-                "kod waluty='" + currencyCode + '\'' +
-                ", nazwa waluty='" + currencyName + '\'' +
-                ", przeliczony kurs średni waluty=" + avarageValue +
+                "id=" + id +
+                ", typEndpointu='" + typEndpointu + '\'' +
+                ", zwroconaWartosc='" + zwroconaWartosc + '\'' +
                 '}';
     }
 
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
+    public Long getId() {
+        return id;
     }
 
-    public void setCurrencyName(String currencyName) {
-        this.currencyName = currencyName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setAvarageValue(BigDecimal avarageValue) {
-        this.avarageValue = avarageValue;
+    public String getTypEndpointu() {
+        return typEndpointu;
     }
 
-    public String getCurrencyCode() {
-        return currencyCode;
+    public void setTypEndpointu(String typEndpointu) {
+        this.typEndpointu = typEndpointu;
     }
 
-    public String getCurrencyName() {
-        return currencyName;
+    public String getZwroconaWartosc() {
+        return zwroconaWartosc;
     }
 
-    public BigDecimal getAvarageValue() {
-        return avarageValue;
+    public void setZwroconaWartosc(String zwroconaWartosc) {
+        this.zwroconaWartosc = zwroconaWartosc;
     }
 
-    public Currency(String currencyCode, String currencyName, BigDecimal avarageValue) {
-        this.currencyCode = currencyCode;
-        this.currencyName = currencyName;
-        this.avarageValue = avarageValue;
+    public Currency() {
+    }
+
+    public Currency(String typEndpointu, String zwroconaWartosc) {
+        this.typEndpointu = typEndpointu;
+        this.zwroconaWartosc = zwroconaWartosc;
     }
 }

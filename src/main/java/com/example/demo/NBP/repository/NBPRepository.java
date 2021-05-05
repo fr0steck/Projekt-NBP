@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NBPRepository
-extends JpaRepository<Currency,String> {
+extends JpaRepository<Currency,Long> {
 }
