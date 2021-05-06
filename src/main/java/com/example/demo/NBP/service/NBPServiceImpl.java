@@ -46,7 +46,7 @@ public class NBPServiceImpl implements NBPService {
         nbpRepository.save(obiekt);
         return waluty[0].getRates();
     }
-
+//sgdshyhry
     @Override
     public BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2) {
         ValueDTO waluta1 = webClientBuilder.build()
