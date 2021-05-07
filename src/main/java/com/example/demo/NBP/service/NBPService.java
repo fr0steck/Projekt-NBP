@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface NBPService {
     List<RateDTO> getAvaliableCurrencies() throws JsonProcessingException;
-    BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2);
+    BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2) throws JsonProcessingException;
     BigDecimal exchangeCurrenciesStream(BigDecimal value, String currency1, String currency2);
 }

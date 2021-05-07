@@ -33,7 +33,7 @@ public class NBPController {
 
 
     @PostMapping(path = "/exchangeCurrencies")
-    public BigDecimal exchangeCurrencies(@RequestBody BigDecimal value, String currency1, String currency2){
+    public BigDecimal exchangeCurrencies(@RequestBody BigDecimal value, String currency1, String currency2) throws JsonProcessingException{
         return nbpService.exchangeCurrencies(value,currency1,currency2);
     }
 

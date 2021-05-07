@@ -1,5 +1,6 @@
 package com.example.demo.NBP.entity;
 
+import com.example.demo.NBP.common.RequestType;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
@@ -9,20 +10,31 @@ import javax.persistence.*;
 @Table
 public class Currency {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
-    private String typEndpointu;
-    @Lob
+    @Enumerated(EnumType.STRING)
+    private RequestType requestType;
     @Column(columnDefinition="TEXT")
-    private String zwroconaWartosc;
+    private String NBPResponse;
+    @Column(columnDefinition="TEXT")
+    private String APIResponse;
 
     @Override
     public String toString() {
         return "Currency{" +
                 "id=" + id +
-                ", typEndpointu='" + typEndpointu + '\'' +
-                ", zwroconaWartosc='" + zwroconaWartosc + '\'' +
+                ", typEndpointu=" + requestType +
+                ", NBPResponse='" + NBPResponse + '\'' +
+                ", APIResponse='" + APIResponse + '\'' +
                 '}';
+    }
+
+    public String getAPIResponse() {
+        return APIResponse;
+    }
+
+    public void setAPIResponse(String APIResponse) {
+        this.APIResponse = APIResponse;
     }
 
     public Long getId() {
@@ -33,27 +45,33 @@ public class Currency {
         this.id = id;
     }
 
-    public String getTypEndpointu() {
-        return typEndpointu;
+    public RequestType getRequestType() {
+        return requestType;
     }
 
-    public void setTypEndpointu(String typEndpointu) {
-        this.typEndpointu = typEndpointu;
+    public void setRequestType(RequestType typEndpointu) {
+        this.requestType = typEndpointu;
     }
 
-    public String getZwroconaWartosc() {
-        return zwroconaWartosc;
+    public String getNBPResponse() {
+        return NBPResponse;
     }
 
-    public void setZwroconaWartosc(String zwroconaWartosc) {
-        this.zwroconaWartosc = zwroconaWartosc;
+    public void setNBPResponse(String zwroconaWartosc) {
+        this.NBPResponse = zwroconaWartosc;
     }
 
     public Currency() {
     }
 
-    public Currency(String typEndpointu, String zwroconaWartosc) {
-        this.typEndpointu = typEndpointu;
-        this.zwroconaWartosc = zwroconaWartosc;
+    public Currency(RequestType requestType, String NBPResponse) {
+        this.requestType = requestType;
+        this.NBPResponse = NBPResponse;
+    }
+
+    public Currency(RequestType requestType, String NBPResponse, String APIResponse) {
+        this.requestType = requestType;
+        this.NBPResponse = NBPResponse;
+        this.APIResponse = APIResponse;
     }
 }

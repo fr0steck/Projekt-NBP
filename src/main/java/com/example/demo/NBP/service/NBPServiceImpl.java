@@ -1,5 +1,6 @@
 package com.example.demo.NBP.service;
 
+import com.example.demo.NBP.common.RequestType;
 import com.example.demo.NBP.dto.NBPResponseDTO;
 import com.example.demo.NBP.dto.RateDTO;
 import com.example.demo.NBP.dto.ValueDTO;
@@ -42,13 +43,13 @@ public class NBPServiceImpl implements NBPService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String nbpresponse = objectMapper.writeValueAsString(waluty[0].getRates());
-        Currency obiekt = new com.example.demo.NBP.entity.Currency("getAvaliableCurrencies",nbpresponse);
+        Currency obiekt = new com.example.demo.NBP.entity.Currency(RequestType.AVAILABLE_CURRENCIES,nbpresponse);
         nbpRepository.save(obiekt);
         return waluty[0].getRates();
     }
-//sgdshyhry
+
     @Override
-    public BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2) {
+    public BigDecimal exchangeCurrencies(BigDecimal value, String currency1, String currency2) throws JsonProcessingException {
         ValueDTO waluta1 = webClientBuilder.build()
                 .get()
                 .uri("http://api.nbp.pl/api/exchangerates/rates/A/{id}",currency1)
@@ -63,6 +64,16 @@ public class NBPServiceImpl implements NBPService {
                 .block();
         BigDecimal valuePierwszej = waluta1.getRates().get(0).getMid();
         BigDecimal valueDrugiej = waluta2.getRates().get(0).getMid();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String nbpresponse = objectMapper.writeValueAsString(waluta1);
+        String nbpresponse1 = objectMapper.writeValueAsString(waluta2);
+        String nbpresposnefinal = nbpresponse + ", " + nbpresponse1;
+        String apiresponse1 = objectMapper.writeValueAsString(valuePierwszej);
+        String apiresponse2 = objectMapper.writeValueAsString(valueDrugiej);
+        String apiresponsefinal = apiresponse1 + ", " + apiresponse2;
+        Currency obiekt = new Currency(RequestType.EXCHANGE_CURRENCIES,nbpresposnefinal,apiresponsefinal);
+        nbpRepository.save(obiekt);
         return (value.multiply(valuePierwszej)).divide(valueDrugiej,5, RoundingMode.HALF_UP);
     }
 
