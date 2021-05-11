@@ -65,7 +65,7 @@ public class NBPServiceImpl implements NBPService {
         BigDecimal valuePierwszej = waluta1.getRates().get(0).getMid();
         BigDecimal valueDrugiej = waluta2.getRates().get(0).getMid();
 
-        String request = "From: " + currency1 + " to: " + currency2 + " quantity: " + value.toPlainString();
+        String request = String.format("From: %s%n to: %s%n quantity: %f",currency1,currency2,value);
         String response = value.multiply(valuePierwszej).divide(valueDrugiej,5, RoundingMode.HALF_UP).toPlainString();
         Currency obiekt = new Currency(RequestType.EXCHANGE_CURRENCIES,request,response);
         nbpRepository.save(obiekt);
