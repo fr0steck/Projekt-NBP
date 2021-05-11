@@ -4,6 +4,7 @@ import com.example.demo.NBP.common.RequestType;
 import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -15,26 +16,21 @@ public class Currency {
     @Enumerated(EnumType.STRING)
     private RequestType requestType;
     @Column(columnDefinition="TEXT")
-    private String NBPResponse;
+    private String request;
     @Column(columnDefinition="TEXT")
-    private String APIResponse;
+    private String response;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date = new Date();
 
     @Override
     public String toString() {
         return "Currency{" +
                 "id=" + id +
-                ", typEndpointu=" + requestType +
-                ", NBPResponse='" + NBPResponse + '\'' +
-                ", APIResponse='" + APIResponse + '\'' +
+                ", requestType=" + requestType +
+                ", request='" + request + '\'' +
+                ", response='" + response + '\'' +
+                ", date=" + date +
                 '}';
-    }
-
-    public String getAPIResponse() {
-        return APIResponse;
-    }
-
-    public void setAPIResponse(String APIResponse) {
-        this.APIResponse = APIResponse;
     }
 
     public Long getId() {
@@ -49,29 +45,46 @@ public class Currency {
         return requestType;
     }
 
-    public void setRequestType(RequestType typEndpointu) {
-        this.requestType = typEndpointu;
+    public void setRequestType(RequestType requestType) {
+        this.requestType = requestType;
     }
 
-    public String getNBPResponse() {
-        return NBPResponse;
+    public String getRequest() {
+        return request;
     }
 
-    public void setNBPResponse(String zwroconaWartosc) {
-        this.NBPResponse = zwroconaWartosc;
+    public void setRequest(String request) {
+        this.request = request;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Currency() {
     }
 
-    public Currency(RequestType requestType, String NBPResponse) {
+    public Currency(RequestType requestType, String request) {
         this.requestType = requestType;
-        this.NBPResponse = NBPResponse;
+        this.request = request;
     }
 
-    public Currency(RequestType requestType, String NBPResponse, String APIResponse) {
+    public Currency(RequestType requestType, String request, String response) {
         this.requestType = requestType;
-        this.NBPResponse = NBPResponse;
-        this.APIResponse = APIResponse;
+        this.request = request;
+        this.response = response;
     }
+
 }

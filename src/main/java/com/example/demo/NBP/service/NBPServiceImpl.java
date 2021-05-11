@@ -42,8 +42,8 @@ public class NBPServiceImpl implements NBPService {
                 .block();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String nbpresponse = objectMapper.writeValueAsString(waluty[0].getRates());
-        Currency obiekt = new com.example.demo.NBP.entity.Currency(RequestType.AVAILABLE_CURRENCIES,nbpresponse);
+        String response = objectMapper.writeValueAsString(waluty[0].getRates());
+        Currency obiekt = new com.example.demo.NBP.entity.Currency(RequestType.AVAILABLE_CURRENCIES,null,response);
         nbpRepository.save(obiekt);
         return waluty[0].getRates();
     }
@@ -65,14 +65,9 @@ public class NBPServiceImpl implements NBPService {
         BigDecimal valuePierwszej = waluta1.getRates().get(0).getMid();
         BigDecimal valueDrugiej = waluta2.getRates().get(0).getMid();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String nbpresponse = objectMapper.writeValueAsString(waluta1);
-        String nbpresponse1 = objectMapper.writeValueAsString(waluta2);
-        String nbpresposnefinal = nbpresponse + ", " + nbpresponse1;
-        String apiresponse1 = objectMapper.writeValueAsString(valuePierwszej);
-        String apiresponse2 = objectMapper.writeValueAsString(valueDrugiej);
-        String apiresponsefinal = apiresponse1 + ", " + apiresponse2;
-        Currency obiekt = new Currency(RequestType.EXCHANGE_CURRENCIES,nbpresposnefinal,apiresponsefinal);
+        String request = "From: " + currency1 + " to: " + currency2 + " quantity: " + value.toPlainString();
+        String response = value.multiply(valuePierwszej).divide(valueDrugiej,5, RoundingMode.HALF_UP).toPlainString();
+        Currency obiekt = new Currency(RequestType.EXCHANGE_CURRENCIES,request,response);
         nbpRepository.save(obiekt);
         return (value.multiply(valuePierwszej)).divide(valueDrugiej,5, RoundingMode.HALF_UP);
     }
